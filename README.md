@@ -3,6 +3,8 @@
 
 USAGE
 
+    chmod +x 303make
+    
     ./303make makefile [file]
     
 DESCRIPTION
