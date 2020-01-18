@@ -1,0 +1,68 @@
+#!/usr/bin/env python2.7
+
+import sys
+from math import *
+
+def read_delim(words, contain, people):
+    j = 0
+    for i in words:
+        if (j == 0):
+            j = j + 1
+            contain = i
+            people[contain] = []
+        if (i.find("\n") != -1):
+            words = i[:i.rfind('\'')]
+            people[words] = []
+            people[contain].append(i[:i.rfind('\'')])
+            j = 0
+        else:
+            people[i] = []
+            people[contain].append(i)
+
+def parse(_file, people):
+    delimiter = ":"
+    for i in _file:
+        if (i.find(delimiter) != -1):
+            i = i.replace(delimiter, "")
+            words = i.split(" ")
+            contain = ""
+            read_delim(words, contain, people)
+
+def second_browse(two_dims_array, a, j, people):
+    for b in sorted(people.keys()):
+       if ((b in people[a]) == True):
+          two_dims_array[j].append('1')
+       else:
+          two_dims_array[j].append('0')
+    print '[' + ' '.join(two_dims_array[j]) + ']'
+
+def browse_over(two_dims_array, j, people):
+    for a in sorted(people.keys()):
+       two_dims_array.append([])
+       second_browse(two_dims_array, a, j, people)
+       j = j + 1
+
+def make_matrices(two_dims_array, people):
+    j = 0
+    browse_over(two_dims_array, j, people)
+    print
+
+def main():
+    two_dims_array = [[]]
+    people = {}
+    if (len(sys.argv) == 2):
+        try:
+            file = open(sys.argv[1])
+        except:
+            return 84
+        lines = file.readlines()
+        parse(lines, people)
+        make_matrices(two_dims_array, people)
+    elif (len(sys.argv) == 3):
+        return 0
+    else:
+        return 84
+    return 0
+
+if __name__ == '__main__':
+   sys.exit(main())
